@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+    <header class="header">
+        <div class="container">
+            <div class="text-center">
+                <div class="mb-3">
+                    <!-- プロフィール写真 rounded-circleはbootstrapのデフォルトクラス,img-center:写真が縮むことを防ぐ-->
+                    <img src="{% if work.img %}{{ work.img.url }}{% else %}{% static 'assets/img/man.jpg' %}{% endif %}" height=200 width=200 alt="" class="rounded-circle"/>
+                    <hr/>
+                    <!-- header-title:自作　text-dark:bootstrap -->
+                    {% if profile.name %}
+                    <h1 class="header-title">氏名：{{ profile.name }}/h1>
+                    {% endif %}
+                    {% if profile.career %}
+                    <h5>職業：{{ profile.career}}</h5>
+                    {% endif %}
+                    <h5>性別：男</h5>
+                    {% if profile.org %}
+                    <h5>所属：{{ profile.org }}</h5>
+                    {% endif %}
+                    {% if profile.age %}
+                    <h5>年齢： {{ profile.age}}歳</h5>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <a target="_blank" href="">
+                        <i class="fab fa-twitter-square ssn" style="color:rgb(32, 142, 175)"></i>
+                    </a>
+
+                </div>
+                    <div class="mx-auto">
+                        <div class="container text-left">
+                            <div class="bg-light p-3 p-sm-5 my-4 rounded">
+                                <p>自己紹介</p>
+
+                                <hr class="my-4　"/>
+                                <!-- 自動で改行補完してくれる -->
+                                <p >{{ profile.introduce|safe|linebreaksbr }}</p>
+                            </div>
+                          </div>
+                    </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="container">
+            <div class="">
+                <h4 class="  text-success font-weight-bold display-6">使える技術</h4>
+                <hr/>
+                <div class="row mb-4 em-auto py-1">
+                    <table class="table">
+                        <td class="align-middle h4">言語</td>
+                        <td class="align-middle h4">学習歴</td>
+                        <td class="align-middle h4">どのように学んだか</td>
+                        {% for skill in skills %}
+                        <tr>
+                            <td class="align-middle h5 font-weight-bold">{{　skill.name　}}</td>
+                            <td>{{ skill.period_rounded }}年</td>
+                            <td>{{ skill.description }}</td>
+                        {% endfor　%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+                <h4 class="  text-success font-weight-bold display-6">作成物</h4>
+                <hr/>
+                <!-- gridシステム入れることでaタグのhover領域が行いっぱいから画像だけの部分になった -->
+                        <div class="row  ">
+                            {% for work in works %}
+                            <div class="pointer col-lg-3 mb-3">
+                                <a href="" target="_blank">
+
+                                    <div class="mb-4 em-auto py-2 px-3">
+                                        <div class="card shadow">
+                                            <div >
+                                                <!-- url=画像を変数展開するためのメソッド -->
+                                                <img src="{% if work.img %}{{ work.img.url }}{% else %}{% static 'assets/img/man.jpg' %}{% endif %}" alt="" height=350px; width=400px class="img-center card-img-top"/>
+                                                <p class="card-text text-dark align-middle" style="font-size: 20px ;position:auto">{{ work.title}}</p>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                        <br/>
+                        <br/>
+                        <!-- class=rowは画面いっぱいに広げるか(rowのdivはプロパティ値１つしか指定できない) -->
+                        <div class="row"　style="padding:100px;">
+                            <a href="{% url 'portfolio:works'%}" class="btn btn-primary text-light"><i class="fas fa-list-alt"></i>すべての作成物を表示</a>
+                        </div>
+        </div>
+    </section>
+{% endblock %}

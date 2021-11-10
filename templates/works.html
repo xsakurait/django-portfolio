@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+<section>
+    <div class="container">
+        <a href="/" style="left:0;top:0"><i class="fas fa-arrow-left">戻る</i></a>
+            <h4 class="  text-success font-weight-bold display-6">作成物</h4>
+            <hr/>
+            <!-- gridシステム入れることでaタグのhover領域が行いっぱいから画像だけの部分になった -->
+                    <div class="row  ">
+                        {% for work in works %}
+                        <div class="pointer col-lg-3 mb-3">
+                            <a href="" target="_blank">
+
+                                <div class="mb-4 em-auto py-2 px-3">
+                                    <div class="card shadow">
+                                        <div >
+                                            <!-- url=画像を変数展開するためのメソッド -->
+                                            <img src="{% if work.img %}{{ work.img.url }}{% else %}{% static 'assets/img/man.jpg' %}{% endif %}" alt=""  height=350px; width=400px class="img-center card-img-top"/>
+                                            <p class="card-text text-dark align-middle" style="font-size: 20px ;position:auto">{{ work.title}}</p>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+        </div>
+    </section>    
+{% endblock %}
