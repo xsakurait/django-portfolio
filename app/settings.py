@@ -1,4 +1,5 @@
 from pathlib import Path
+import environ
 import os
 
 from django.utils.translation import ugettext_lazy as _
@@ -8,11 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_NAME = os.path.basename(BASE_DIR)
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
 
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = 'django-insecure-h*u4@oy=-ds6hot2u*wg+vsg-dfe&mc=fgv1wnk%!q!7bm9m$q'
+SECRET_KEY = env.get_value('SECRET_KEY', cast=bool, default=True)
 
-
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
