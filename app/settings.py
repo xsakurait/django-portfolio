@@ -1,7 +1,7 @@
 from pathlib import Path
 import environ
 import os
-
+import django_heroku
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -19,8 +19,6 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'portfolio'#追加したアプリ名
+    'portfolio'  # 追加したアプリ名
 ]
 
 MIDDLEWARE = [
@@ -40,9 +38,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'app.urls' #プロジェクト名をxxxに入れる
+ROOT_URLCONF = 'app.urls'  # プロジェクト名をxxxに入れる
 
 TEMPLATES = [
     {
@@ -60,16 +59,18 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application' #プロジェクト名をxxxに入れる
+WSGI_APPLICATION = 'app.wsgi.application'  # プロジェクト名をxxxに入れる
 
-
-
-DATABASES = {
+if DEBUG:
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+else:
+    
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -88,8 +89,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
-
 LANGUAGE_CODE = 'ja'
 
 LANGUAGES = [
@@ -105,7 +104,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/')
@@ -119,4 +117,4 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 FILE_UPLOAD_MAX_MEMORY_SIZE = 15728640
 DATA_UPLOAD_MAX_MEMORY_SIZE = 15728640
 
-
+django_heroku.settings(locals())
